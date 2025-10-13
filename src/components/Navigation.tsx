@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useCart } from "@/contexts/CartContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { getTotalItems } = useCart();
+  const totalItems = getTotalItems();
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
+    { name: "Products", path: "/products" },
     { name: "Services", path: "/services" },
     { name: "Contact", path: "/contact" },
   ];
@@ -45,25 +50,48 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
-            {/* <Link to="/admin">
-              <Button variant="outline" size="sm">
-                Admin
+            <Link to="/cart">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                  >
+                    {totalItems}
+                  </Badge>
+                )}
               </Button>
-            </Link> */}
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? (
-              <X className="h-6 w-6 text-foreground" />
-            ) : (
-              <Menu className="h-6 w-6 text-foreground" />
-            )}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <Link to="/cart">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                  >
+                    {totalItems}
+                  </Badge>
+                )}
+              </Button>
+            </Link>
+            <button
+              className="p-2"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6 text-foreground" />
+              ) : (
+                <Menu className="h-6 w-6 text-foreground" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -83,11 +111,6 @@ const Navigation = () => {
                 {link.name}
               </Link>
             ))}
-            {/* <Link to="/admin" onClick={() => setIsOpen(false)}>
-              <Button variant="outline" size="sm" className="w-full mt-2">
-                Admin
-              </Button>
-            </Link> */}
           </div>
         )}
       </div>

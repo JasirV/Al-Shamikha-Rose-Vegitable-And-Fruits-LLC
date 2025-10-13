@@ -3,6 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import heroImage from "@/assets/hero-produce.jpg";
 import fruitsImage from "@/assets/fruits-collection.jpg";
 import vegetablesImage from "@/assets/vegetables-collection.jpg";
@@ -10,9 +11,12 @@ import WhyChooseUs from "@/components/ui/WhyChooseUs";
 import MoreProducts from "@/components/ui/MoreProducts";
 import NewsletterCTA from "@/components/ui/NewsletterCTA";
 import Footer from "@/components/Footer";
-const Home: React.FC = () => {
-  // Sample featured products - will be replaced with real data from backend later
-  const featuredProducts = [
+
+const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // All products with different categories
+  const allProducts = [
     {
       id: 1,
       name: "Fresh Strawberries",
@@ -22,26 +26,61 @@ const Home: React.FC = () => {
     },
     {
       id: 2,
-      name: "Organic Carrots",
-      price: 12,
-      image: vegetablesImage,
-      category: "Vegetables",
-    },
-    {
-      id: 3,
       name: "Sweet Oranges",
       price: 18,
       image: fruitsImage,
       category: "Fruits",
     },
     {
+      id: 3,
+      name: "Red Apples",
+      price: 20,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
       id: 4,
+      name: "Fresh Bananas",
+      price: 15,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
+      id: 6,
+      name: "Organic Carrots",
+      price: 12,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+    {
+      id: 7,
       name: "Fresh Broccoli",
       price: 15,
       image: vegetablesImage,
       category: "Vegetables",
     },
+    {
+      id: 8,
+      name: "Bell Peppers",
+      price: 18,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+    {
+      id: 9,
+      name: "Fresh Tomatoes",
+      price: 10,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
   ];
+
+  const categories = ["All", "Fruits", "Vegetables"];
+
+  const filteredProducts =
+    selectedCategory === "All"
+      ? allProducts
+      : allProducts.filter((product) => product.category === selectedCategory);
 
   return (
     <div className="min-h-screen">
@@ -106,21 +145,19 @@ const Home: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-secondary" />
-                <span className="text-sm font-medium">
-                  Best Prices in Dubai
-                </span>
+                <span className="text-sm font-medium">Best Prices in Dubai</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products Section */}
+      {/* Products Section with Category Filter */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Featured <span className="text-gradient-primary">Products</span>
+              Our Fresh <span className="text-gradient-primary">Products</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Handpicked fresh produce delivered daily from the finest farms to
@@ -128,34 +165,50 @@ const Home: React.FC = () => {
             </p>
           </div>
 
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in-up">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="lg"
+                className="min-w-[120px] transition-all duration-300 hover-scale"
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+
+          {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 <ProductCard {...product} />
               </div>
             ))}
           </div>
 
-          {/* <div className="text-center mt-12">
-            <p className="text-muted-foreground mb-4">
-              More products coming soon with our admin dashboard!
-            </p>
-            <Link to="/admin">
-              <Button variant="outline" size="lg">
-                Go to Admin Panel
-              </Button>
-            </Link>
-          </div> */}
-          <WhyChooseUs/>
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">
+                No products found in this category.
+              </p>
+            </div>
+          )}
+
+                    <WhyChooseUs/>
           <MoreProducts/>
           <NewsletterCTA/>
         </div>
       </section>
+
+      {/* Footer */}
       <Footer/>
-      
     </div>
   );
 };

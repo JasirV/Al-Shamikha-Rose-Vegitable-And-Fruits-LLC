@@ -1,21 +1,21 @@
-import { MessageCircle } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
+  id: number;
   name: string;
   price: number;
   image: string;
   category?: string;
 }
 
-const ProductCard = ({ name, price, image, category }: ProductCardProps) => {
-  const handleWhatsAppOrder = () => {
-    const message = encodeURIComponent(
-      `Hi, I'm interested in buying ${name} (Price: AED ${price}/kg).`
-    );
-    const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${message}`;
-    window.open(whatsappUrl, "_blank");
+const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({ id, name, price, image, category });
   };
 
   return (
@@ -46,11 +46,11 @@ const ProductCard = ({ name, price, image, category }: ProductCardProps) => {
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <Button
-          onClick={handleWhatsAppOrder}
-          className="w-full gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white"
+          onClick={handleAddToCart}
+          className="w-full gap-2"
         >
-          <MessageCircle className="h-4 w-4" />
-          Order on WhatsApp
+          <ShoppingCart className="h-4 w-4" />
+          Add to Cart
         </Button>
       </CardFooter>
     </Card>
