@@ -20,7 +20,7 @@ const Cart = () => {
     });
     message += `\nTotal: AED ${getTotalPrice().toFixed(2)}`;
 
-    const whatsappUrl = `https://wa.me/971XXXXXXXXX?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/+917034426537?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
