@@ -2,6 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useCart } from "@/contexts/CartContext";
+import { MdAddShoppingCart } from "react-icons/md";
 
 interface ProductCardProps {
   id: number;
@@ -11,7 +12,13 @@ interface ProductCardProps {
   category?: string;
 }
 
-const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => {
+const ProductCard = ({
+  id,
+  name,
+  price,
+  image,
+  category,
+}: ProductCardProps) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -19,7 +26,8 @@ const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => 
   };
 
   return (
-    <Card className="group overflow-hidden hover-lift hover-glow border-border/50 animate-fade-in-up">
+    <Card className="group overflow-hidden hover-lift hover-glow border-border/50 animate-fade-in-up transition-transform duration-300 hover:scale-[1.02]">
+      {/* Product Image */}
       <div className="relative aspect-square overflow-hidden bg-muted">
         <img
           src={image}
@@ -28,29 +36,35 @@ const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => 
           loading="lazy"
         />
         {category && (
-          <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-primary/90 backdrop-blur-sm">
-            <span className="text-xs font-medium text-primary-foreground">
+          <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-primary/90 backdrop-blur-sm">
+            <span className="text-[10px] sm:text-xs font-medium text-primary-foreground">
               {category}
             </span>
           </div>
         )}
       </div>
-      <CardContent className="p-4">
-        <h3 className="text-lg font-semibold mb-1 group-hover:text-primary transition-colors">
+
+      {/* Product Info */}
+      <CardContent className="p-2 sm:p-4 text-center">
+        <h3 className="text-[10px] sm:text-lg font-semibold mb-0.5 sm:mb-1 group-hover:text-primary transition-colors truncate">
           {name}
         </h3>
-        <p className="text-2xl font-bold text-gradient-primary">
+        <p className="text-sm sm:text-2xl font-bold text-gradient-primary">
           AED {price}
-          <span className="text-sm text-muted-foreground font-normal">/kg</span>
+          <span className="text-[9px] sm:text-sm text-muted-foreground font-normal">
+            /kg
+          </span>
         </p>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
+
+      {/* Add to Cart Button */}
+      <CardFooter className="p-2 sm:p-4 pt-0">
         <Button
           onClick={handleAddToCart}
-          className="w-full gap-2"
+          className="w-full gap-1 sm:gap-2 text-[10px] sm:text-base py-1 sm:py-2"
         >
-          <ShoppingCart className="h-4 w-4" />
-          Add to Cart
+          <MdAddShoppingCart  className="h-3 w-3 sm:h-4 sm:w-4" />
+          <span className="hidden sm:inline">Add</span>
         </Button>
       </CardFooter>
     </Card>

@@ -1,74 +1,74 @@
-import React from 'react'
+import React from "react";
 import fruitsImage from "@/assets/fruits-collection.jpg";
 import vegetablesImage from "@/assets/vegetables-collection.jpg";
-import ProductCard from '@/components/ProductCard';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import ProductCard from "@/components/ProductCard";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const Products: React.FC = () => {
-      const allProducts = [
-        {
-          id: 1,
-          name: "Fresh Strawberries",
-          price: 25,
-          image: fruitsImage,
-          category: "Fruits",
-        },
-        {
-          id: 2,
-          name: "Sweet Oranges",
-          price: 18,
-          image: fruitsImage,
-          category: "Fruits",
-        },
-        {
-          id: 3,
-          name: "Red Apples",
-          price: 20,
-          image: fruitsImage,
-          category: "Fruits",
-        },
-        {
-          id: 4,
-          name: "Fresh Bananas",
-          price: 15,
-          image: fruitsImage,
-          category: "Fruits",
-        },
-        {
-          id: 6,
-          name: "Organic Carrots",
-          price: 12,
-          image: vegetablesImage,
-          category: "Vegetables",
-        },
-        {
-          id: 7,
-          name: "Fresh Broccoli",
-          price: 15,
-          image: vegetablesImage,
-          category: "Vegetables",
-        },
-        {
-          id: 8,
-          name: "Bell Peppers",
-          price: 18,
-          image: vegetablesImage,
-          category: "Vegetables",
-        },
-        {
-          id: 9,
-          name: "Fresh Tomatoes",
-          price: 10,
-          image: vegetablesImage,
-          category: "Vegetables",
-        },
-      ];
-    
+  const allProducts = [
+    {
+      id: 1,
+      name: "Fresh Strawberries",
+      price: 25,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
+      id: 2,
+      name: "Sweet Oranges",
+      price: 18,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
+      id: 3,
+      name: "Red Apples",
+      price: 20,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
+      id: 4,
+      name: "Fresh Bananas",
+      price: 15,
+      image: fruitsImage,
+      category: "Fruits",
+    },
+    {
+      id: 6,
+      name: "Organic Carrots",
+      price: 12,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+    {
+      id: 7,
+      name: "Fresh Broccoli",
+      price: 15,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+    {
+      id: 8,
+      name: "Bell Peppers",
+      price: 18,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+    {
+      id: 9,
+      name: "Fresh Tomatoes",
+      price: 10,
+      image: vegetablesImage,
+      category: "Vegetables",
+    },
+  ];
+
   return (
     <div>
-        <Navigation />
-         <section className="py-20 bg-background">
+      <Navigation />
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -79,22 +79,22 @@ const Products: React.FC = () => {
               your home
             </p>
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {allProducts.map((product, index) => (
               <div
                 key={product.id}
-                className="animate-fade-in"
+                className="animate-fade-in transform scale-[0.85] sm:scale-100"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <ProductCard {...product} />
               </div>
             ))}
           </div>
-          </div>
-          </section>
-          <Footer/>
+        </div>
+      </section>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;
