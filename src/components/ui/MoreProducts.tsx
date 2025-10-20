@@ -5,14 +5,14 @@ import fruitsImage from "@/assets/fruits-collection.jpg";
 import vegetablesImage from "@/assets/vegetables-collection.jpg";
 
 const products = [
-  { id: 1, name: "Juicy Mangoes", price: 30, image: fruitsImage, category: "Fruits" },
-  { id: 2, name: "Organic Spinach", price: 10, image: vegetablesImage, category: "Vegetables" },
-  { id: 3, name: "Fresh Pineapple", price: 22, image: fruitsImage, category: "Fruits" },
-  { id: 4, name: "Red Bell Peppers", price: 18, image: vegetablesImage, category: "Vegetables" },
-  { id: 5, name: "Strawberries", price: 25, image: fruitsImage, category: "Fruits" },
-  { id: 6, name: "Broccoli", price: 15, image: vegetablesImage, category: "Vegetables" },
-  { id: 7, name: "Organic Spinach", price: 10, image: vegetablesImage, category: "Vegetables" },
-  { id: 8, name: "Fresh Pineapple", price: 22, image: fruitsImage, category: "Fruits" },
+  { id: 1, name: "Juicy Mangoes", price: 30, imageUrl: fruitsImage, category: "Fruits" },
+  { id: 2, name: "Organic Spinach", price: 10, imageUrl: vegetablesImage, category: "Vegetables" },
+  { id: 3, name: "Fresh Pineapple", price: 22, imageUrl: fruitsImage, category: "Fruits" },
+  { id: 4, name: "Red Bell Peppers", price: 18, imageUrl: vegetablesImage, category: "Vegetables" },
+  { id: 5, name: "Strawberries", price: 25, imageUrl: fruitsImage, category: "Fruits" },
+  { id: 6, name: "Broccoli", price: 15, imageUrl: vegetablesImage, category: "Vegetables" },
+  { id: 7, name: "Organic Spinach", price: 10, imageUrl: vegetablesImage, category: "Vegetables" },
+  { id: 8, name: "Fresh Pineapple", price: 22, imageUrl: fruitsImage, category: "Fruits" },
 ];
 
 const MoreProducts: React.FC = () => {

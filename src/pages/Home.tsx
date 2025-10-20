@@ -3,7 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero-produce.jpg";
 import fruitsImage from "@/assets/fruits-collection.jpg";
 import vegetablesImage from "@/assets/vegetables-collection.jpg";
@@ -11,146 +11,137 @@ import WhyChooseUs from "@/components/ui/WhyChooseUs";
 import MoreProducts from "@/components/ui/MoreProducts";
 import NewsletterCTA from "@/components/ui/NewsletterCTA";
 import Footer from "@/components/Footer";
+import { motion } from "framer-motion";
+import { db } from "@/lib/firebase";
+import { collection, getDocs,query, limit } from "firebase/firestore";
+import HeroSection from "@/pages/HeroSection";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
+    const [offerImages, setOfferImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+   const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   // All products with different categories
-  const allProducts = [
-    {
-      id: 1,
-      name: "Fresh Strawberries",
-      price: 25,
-      image: fruitsImage,
-      category: "Fruits",
-    },
-    {
-      id: 2,
-      name: "Sweet Oranges",
-      price: 18,
-      image: fruitsImage,
-      category: "Fruits",
-    },
-    {
-      id: 3,
-      name: "Red Apples",
-      price: 20,
-      image: fruitsImage,
-      category: "Fruits",
-    },
-    {
-      id: 4,
-      name: "Fresh Bananas",
-      price: 15,
-      image: fruitsImage,
-      category: "Fruits",
-    },
-    {
-      id: 6,
-      name: "Organic Carrots",
-      price: 12,
-      image: vegetablesImage,
-      category: "Vegetables",
-    },
-    {
-      id: 7,
-      name: "Fresh Broccoli",
-      price: 15,
-      image: vegetablesImage,
-      category: "Vegetables",
-    },
-    {
-      id: 8,
-      name: "Bell Peppers",
-      price: 18,
-      image: vegetablesImage,
-      category: "Vegetables",
-    },
-    {
-      id: 9,
-      name: "Fresh Tomatoes",
-      price: 10,
-      image: vegetablesImage,
-      category: "Vegetables",
-    },
-  ];
+  
+  // Fetch offers from Firestore
+  useEffect(() => {
+    const fetchOffers = async () => {
+      const offersRef = collection(db, "offers"); // collection name
+      const snapshot = await getDocs(offersRef);
+      const urls = snapshot.docs.map((doc) => doc.data().imageUrl);
+      setOfferImages(urls.slice(0, 3)); // limit to 3 images
+    };
+    fetchOffers();
+  }, []);
 
-  const categories = ["All", "Fruits", "Vegetables"];
+   useEffect(() => {
+    if (offerImages.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % offerImages.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [offerImages]);
+    useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const q = query(collection(db, "products"), limit(8)); // fetch max 8
+        const snapshot = await getDocs(q);
+        const products = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAllProducts(products);
+      } catch (error) {
+        console.error("❌ Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchProducts();
+  }, []);
+
+  // ✅ Filter products by category
   const filteredProducts =
     selectedCategory === "All"
       ? allProducts
-      : allProducts.filter((product) => product.category === selectedCategory);
+      : allProducts.filter(
+          (product) =>
+            product.category?.toLowerCase() ===
+            selectedCategory.toLowerCase()
+        );
+
+
+  // const allProducts = [
+  //   {
+  //     id: 1,
+  //     name: "Fresh Strawberries",
+  //     price: 25,
+  //     image: fruitsImage,
+  //     category: "Fruits",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Sweet Oranges",
+  //     price: 18,
+  //     image: fruitsImage,
+  //     category: "Fruits",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Red Apples",
+  //     price: 20,
+  //     image: fruitsImage,
+  //     category: "Fruits",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Fresh Bananas",
+  //     price: 15,
+  //     image: fruitsImage,
+  //     category: "Fruits",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Organic Carrots",
+  //     price: 12,
+  //     image: vegetablesImage,
+  //     category: "Vegetables",
+  //   },
+  //   {
+  //     id: 7,
+  //     name: "Fresh Broccoli",
+  //     price: 15,
+  //     image: vegetablesImage,
+  //     category: "Vegetables",
+  //   },
+  //   {
+  //     id: 8,
+  //     name: "Bell Peppers",
+  //     price: 18,
+  //     image: vegetablesImage,
+  //     category: "Vegetables",
+  //   },
+  //   {
+  //     id: 9,
+  //     name: "Fresh Tomatoes",
+  //     price: 10,
+  //     image: vegetablesImage,
+  //     category: "Vegetables",
+  //   },
+  // ];
+
+  const categories = ["All", "Fruit", "Vegetables","Juice"];
 
   return (
     <div className="min-h-screen">
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="absolute inset-0 gradient-hero" />
-        </div>
-
-        <div className="container relative z-10 mx-auto px-4 py-32 md:py-40">
-          <div className="max-w-3xl animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-6">
-              <Sparkles className="h-4 w-4 text-white" />
-              <span className="text-sm font-medium text-white">
-                Premium Quality Guaranteed
-              </span>
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
-              We Never Compromise on Quality
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90 font-light">
-              Freshness is our promise! Get Dubai's finest fruits and vegetables
-              delivered straight to your doorstep.
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Link to="/contact">
-                <Button size="lg" className="gap-2 text-lg h-14 px-8">
-                  Order Now
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/services">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="gap-2 text-lg h-14 px-8 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary"
-                >
-                  View Services
-                </Button>
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap gap-6 mt-12 text-white">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-secondary" />
-                <span className="text-sm font-medium">Same Day Delivery</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-secondary" />
-                <span className="text-sm font-medium">Farm Fresh Quality</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-secondary" />
-                <span className="text-sm font-medium">Best Prices in Dubai</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Products Section with Category Filter */}
       <section className="py-20 bg-background">

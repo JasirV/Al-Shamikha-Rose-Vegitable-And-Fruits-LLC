@@ -8,7 +8,7 @@ interface ProductCardProps {
   id: number;
   name: string;
   price: number;
-  image: string;
+  imageUrl: string;
   category?: string;
 }
 
@@ -16,13 +16,13 @@ const ProductCard = ({
   id,
   name,
   price,
-  image,
+  imageUrl,
   category,
 }: ProductCardProps) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    addToCart({ id, name, price, image, category });
+    addToCart({ id, name, price, imageUrl, category });
   };
 
   return (
@@ -30,7 +30,7 @@ const ProductCard = ({
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden bg-muted">
         <img
-          src={image}
+          src={imageUrl}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
