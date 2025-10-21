@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { X, Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/uploadToCloudinary";
 
@@ -12,6 +13,7 @@ interface ProductForm {
   name: string;
   category: "vegetable" | "fruit" | "juice";
   type: "kg" | "box" | "piece";
+  description: string;
   price?: number;
   offerPrice?: number;
   boxSizes: { size: string; price: number; offerPrice?: number }[];
@@ -23,6 +25,7 @@ interface Product {
   name: string;
   category: "vegetable" | "fruit" | "juice";
   type: "kg" | "box" | "piece";
+  description: string;
   price?: number;
   offerPrice?: number;
   boxSizes?: { size: string; price: number; offerPrice?: number }[];
@@ -39,20 +42,25 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
 
-  const { register, handleSubmit, watch, setValue, reset } =
+  const { register, handleSubmit, watch, setValue, reset, control } =
     useForm<ProductForm>({
       defaultValues: {
         name: "",
         category: "vegetable",
         type: "kg",
+        description: "",
         price: 0,
         offerPrice: 0,
         boxSizes: [],
       },
     });
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "boxSizes",
+  });
+
   const type = watch("type");
-  const boxSizes = watch("boxSizes") || [];
 
   // ✅ Load product data when editing
   useEffect(() => {
@@ -61,6 +69,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
         name: product.name,
         category: product.category,
         type: product.type,
+        description: product.description || "",
         price: product.price || 0,
         offerPrice: product.offerPrice || 0,
         boxSizes: product.boxSizes || [],
@@ -71,6 +80,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
         name: "",
         category: "vegetable",
         type: "kg",
+        description: "",
         price: 0,
         offerPrice: 0,
         boxSizes: [],
@@ -89,59 +99,42 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
     reader.readAsDataURL(file);
   };
 
-  // ✅ Box size helpers
-  const addBoxSize = () => {
-    setValue("boxSizes", [...boxSizes, { size: "", price: 0, offerPrice: 0 }]);
-  };
-
-  const removeBoxSize = (index: number) => {
-    const updated = boxSizes.filter((_, i) => i !== index);
-    setValue("boxSizes", updated);
-  };
-
-  const updateBoxSize = (
-    index: number,
-    field: "size" | "price" | "offerPrice" | "juice",
-    value: string | number
-  ) => {
-    const updated = boxSizes.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    );
-    setValue("boxSizes", updated);
-  };
-
   // ✅ Submit handler
   const onSubmit = async (data: ProductForm) => {
     setLoading(true);
     try {
       let imageUrl = imagePreview;
 
-      // Upload new image if file selected
       if (data.imageFile) {
         imageUrl = await uploadToCloudinary(data.imageFile);
       }
 
-      const productData = {
+      const productData: any = {
         name: data.name.trim(),
         category: data.category,
         type: data.type,
-        price: data.type === "kg" ? Number(data.price) || 0 : undefined,
-        offerPrice:
-          data.type === "kg" ? Number(data.offerPrice) || 0 : undefined,
-        boxSizes:
-          data.type === "box"
-            ? data.boxSizes.filter((b) => b.size && b.price >= 0)
-            : [],
+        description: data.description.trim(),
         imageUrl,
         updatedAt: new Date(),
         ...(product ? {} : { createdAt: new Date() }),
       };
 
+      // Add price fields only if applicable
+      if (data.type !== "box") {
+        productData.price = Number(data.price) || 0;
+        productData.offerPrice = Number(data.offerPrice) || 0;
+      }
+
+      // Add box sizes only if applicable
+      if (data.type === "box") {
+        productData.boxSizes = data.boxSizes.filter(
+          (b) => b.size && b.price >= 0
+        );
+      }
+
       if (product?.id) {
-        // Update existing product
         await updateDoc(doc(db, "products", product.id), productData);
       } else {
-        // Add new product
         await addDoc(collection(db, "products"), productData);
       }
 
@@ -214,7 +207,17 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               id="name"
               {...register("name", { required: true })}
               placeholder="e.g., Fresh Apples"
-              className="h-12 rounded-lg bg-background border-border/50"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="space-y-3">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              {...register("description")}
+              placeholder="Write a short description about this product..."
+              className="min-h-[100px]"
             />
           </div>
 
@@ -222,22 +225,15 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
           <div className="space-y-3">
             <Label>Product Category</Label>
             <div className="flex gap-4">
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="radio"
-                  value="vegetable"
-                  {...register("category")}
-                />
-                <span>Vegetable</span>
-              </label>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" value="fruit" {...register("category")} />
-                <span>Fruit</span>
-              </label>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" value="juice" {...register("category")} />
-                <span>Juice</span>
-              </label>
+              {["vegetable", "fruit", "juice"].map((cat) => (
+                <label
+                  key={cat}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <input type="radio" value={cat} {...register("category")} />
+                  <span className="capitalize">{cat}</span>
+                </label>
+              ))}
             </div>
           </div>
 
@@ -245,25 +241,22 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
           <div className="space-y-3">
             <Label>Pricing Type</Label>
             <div className="flex gap-4">
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" value="kg" {...register("type")} />
-                <span>Price per Kg</span>
-              </label>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" value="box" {...register("type")} />
-                <span>Box with Sizes</span>
-              </label>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" value="piece" {...register("type")} />
-                <span>Price per Piece</span>
-              </label>
+              {["kg", "box", "piece"].map((t) => (
+                <label
+                  key={t}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <input type="radio" value={t} {...register("type")} />
+                  <span className="capitalize">{t}</span>
+                </label>
+              ))}
             </div>
           </div>
 
           {/* Price Section */}
-          {type === "kg" && (
+          {(type === "kg" || type === "piece") && (
             <div className="space-y-3">
-              <Label htmlFor="price">Price per kg ($)</Label>
+              <Label htmlFor="price">Price ($)</Label>
               <Input
                 id="price"
                 type="number"
@@ -291,7 +284,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={addBoxSize}
+                  onClick={() => append({ size: "", price: 0, offerPrice: 0 })}
                   className="gap-2"
                 >
                   <Plus className="h-4 w-4" />
@@ -299,63 +292,48 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                 </Button>
               </div>
 
-              {boxSizes.map((_, index) => (
-                <div key={index} className="flex gap-3 items-start">
-                  <div className="flex-1">
-                    <Label>Size</Label>
-                    <Input
-                      value={boxSizes[index]?.size || ""}
-                      onChange={(e) =>
-                        updateBoxSize(index, "size", e.target.value)
-                      }
-                      placeholder="e.g., 250g, 500g, 1kg"
-                    />
+              {fields.length > 0 ? (
+                fields.map((field, index) => (
+                  <div key={field.id} className="flex gap-3 items-start">
+                    <div className="flex-1">
+                      <Label>Size</Label>
+                      <Input
+                        {...register(`boxSizes.${index}.size` as const)}
+                        placeholder="e.g., 250g, 500g, 1kg"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <Label>Price ($)</Label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        {...register(`boxSizes.${index}.price` as const, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <Label>Offer Price ($)</Label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        {...register(`boxSizes.${index}.offerPrice` as const, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => remove(index)}
+                      className="mt-7 text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <div className="flex-1">
-                    <Label>Price ($)</Label>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      value={boxSizes[index]?.price || 0}
-                      onChange={(e) =>
-                        updateBoxSize(
-                          index,
-                          "price",
-                          parseFloat(e.target.value) || 0
-                        )
-                      }
-                      placeholder="0.00"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <Label>Offer Price ($)</Label>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      value={boxSizes[index]?.offerPrice || 0}
-                      onChange={(e) =>
-                        updateBoxSize(
-                          index,
-                          "offerPrice",
-                          parseFloat(e.target.value) || 0
-                        )
-                      }
-                      placeholder="0.00"
-                    />
-                  </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeBoxSize(index)}
-                    className="mt-7 text-destructive hover:text-destructive hover:bg-destructive/10 transition-all"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
-
-              {boxSizes.length === 0 && (
+                ))
+              ) : (
                 <div className="text-center py-6 border-2 border-dashed border-border/50 rounded-lg">
                   <p className="text-muted-foreground">
                     No box sizes added yet
@@ -363,7 +341,9 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={addBoxSize}
+                    onClick={() =>
+                      append({ size: "", price: 0, offerPrice: 0 })
+                    }
                     className="mt-2 gap-2"
                   >
                     <Plus className="h-4 w-4" />
@@ -373,26 +353,6 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               )}
             </div>
           )}
-          {type === "piece" && (
-            <div className="space-y-3">
-              <Label htmlFor="price">Price per Piece ($)</Label>
-              <Input
-                id="price"
-                type="number"
-                step="0.01"
-                {...register("price", { valueAsNumber: true, min: 0 })}
-                placeholder="0.00"
-              />
-              <Label htmlFor="offerPrice">Offer Price per Piece ($)</Label>
-              <Input
-                id="offerPrice"
-                type="number"
-                step="0.01"
-                {...register("offerPrice", { valueAsNumber: true, min: 0 })}
-                placeholder="0.00"
-              />
-            </div>
-          )}
 
           {/* Actions */}
           <div className="flex gap-3 pt-6 border-t border-border/50">
@@ -400,14 +360,14 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 h-12 rounded-lg border-border/50 hover:border-primary/50 transition-all"
+              className="flex-1 h-12"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="flex-1 h-12 rounded-lg gap-2 bg-primary hover:bg-primary/90 transition-all"
+              className="flex-1 h-12 gap-2 bg-primary hover:bg-primary/90"
             >
               {loading ? (
                 <>

@@ -13,6 +13,7 @@ interface Product {
   id: string;
   name: string;
   imageUrl: string;
+  price: number;
 }
 
 interface Offer {
@@ -63,6 +64,7 @@ const AdminOfferEdit = () => {
       ...selectedOffer,
       productId: product.id,
       imageUrl: product.imageUrl,
+      price:product.price,
     });
   };
 
@@ -103,6 +105,7 @@ const AdminOfferEdit = () => {
       alert("Failed to update offer.");
     }
   };
+                console.log(products)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

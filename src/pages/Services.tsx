@@ -37,7 +37,7 @@ const Services = () => {
     {
       icon: Truck,
       title: "Free Delivery",
-      description: "Free delivery on orders above AED 100 across Dubai",
+      description: "Free delivery on orders above AED 100 across Abu Dhabi",
     },
     {
       icon: Phone,

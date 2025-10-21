@@ -13,17 +13,17 @@ import NewsletterCTA from "@/components/ui/NewsletterCTA";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { db } from "@/lib/firebase";
-import { collection, getDocs,query, limit } from "firebase/firestore";
+import { collection, getDocs, query, limit } from "firebase/firestore";
 import HeroSection from "@/pages/HeroSection";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-    const [offerImages, setOfferImages] = useState<string[]>([]);
+  const [offerImages, setOfferImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-   const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   // All products with different categories
-  
+
   // Fetch offers from Firestore
   useEffect(() => {
     const fetchOffers = async () => {
@@ -35,7 +35,7 @@ const Home = () => {
     fetchOffers();
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     if (offerImages.length > 1) {
       const interval = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % offerImages.length);
@@ -43,7 +43,7 @@ const Home = () => {
       return () => clearInterval(interval);
     }
   }, [offerImages]);
-    useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -70,10 +70,8 @@ const Home = () => {
       ? allProducts
       : allProducts.filter(
           (product) =>
-            product.category?.toLowerCase() ===
-            selectedCategory.toLowerCase()
+            product.category?.toLowerCase() === selectedCategory.toLowerCase()
         );
-
 
   // const allProducts = [
   //   {
@@ -134,7 +132,7 @@ const Home = () => {
   //   },
   // ];
 
-  const categories = ["All", "Fruit", "Vegetables","Juice"];
+  const categories = ["All", "Fruit", "Vegetables", "Juice"];
 
   return (
     <div className="min-h-screen">
@@ -192,14 +190,14 @@ const Home = () => {
             </div>
           )}
 
-                    <WhyChooseUs/>
-          <MoreProducts/>
-          <NewsletterCTA/>
+          <WhyChooseUs />
+          <MoreProducts />
+          <NewsletterCTA />
         </div>
       </section>
 
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

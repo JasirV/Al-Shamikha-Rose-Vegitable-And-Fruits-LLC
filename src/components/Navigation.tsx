@@ -30,9 +30,15 @@ const Navigation = () => {
             <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
               <Leaf className="h-6 w-6 text-primary" />
             </div>
-            <span className="text-xl font-bold text-gradient-primary">
-              Fresh Harvest
-            </span>
+
+            <div className="flex flex-col leading-tight">
+              <span className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-primary to-emerald-500 text-transparent bg-clip-text drop-shadow-sm">
+                وردة الشامخة
+              </span>
+              <span className="text-xs md:text-sm font-medium text-gradient-primary">
+                Warda al Shamikha
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -42,9 +48,7 @@ const Navigation = () => {
                 key={link.path}
                 to={link.path}
                 className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.path)
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                  isActive(link.path) ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {link.name}
@@ -54,8 +58,8 @@ const Navigation = () => {
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
-                  <Badge 
-                    variant="destructive" 
+                  <Badge
+                    variant="destructive"
                     className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
                   >
                     {totalItems}
@@ -71,8 +75,8 @@ const Navigation = () => {
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
-                  <Badge 
-                    variant="destructive" 
+                  <Badge
+                    variant="destructive"
                     className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
                   >
                     {totalItems}

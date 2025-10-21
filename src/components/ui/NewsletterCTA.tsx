@@ -6,7 +6,7 @@ const NewsletterCTA: React.FC = () => {
     <section className="py-16 bg-green-100">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-4">
-          Stay Updated with <span className="text-gradient-primary">Fresh Harvest</span>
+          Stay Updated with <span className="text-gradient-primary">Warda al Shamikha</span>
         </h2>
         <p className="text-lg text-gray-700 mb-8">
           Subscribe to our newsletter to get the latest deals, new arrivals, and fresh tips delivered straight to your inbox.

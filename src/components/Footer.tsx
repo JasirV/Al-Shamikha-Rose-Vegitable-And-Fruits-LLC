@@ -15,10 +15,10 @@ const Footer: React.FC = () => {
                 {/* Brand Section */}
                 <div>
                   <h2 className="text-2xl font-semibold text-white">
-                    Fresh Harvest Dubai
+                    Warda al Shamikha Al Shamkha 15  Abu Dhabi
                   </h2>
                   <p className="mt-3 text-sm text-gray-400">
-                    Delivering freshness across Dubai 🌱 <br />
+                    Delivering freshness across Al Shamkha 15  Abu Dhabi 🌱 <br />
                     Quality you can taste, trust you can feel.
                   </p>
     
@@ -99,11 +99,11 @@ const Footer: React.FC = () => {
                   <ul className="space-y-2 text-sm text-gray-400">
                     <li className="flex items-center justify-center md:justify-start gap-2">
                       <FaMapMarkerAlt className="text-green-400" />
-                      <span>Dubai, United Arab Emirates</span>
+                      <span>Al Shamkha 15  Abu Dhabi</span>
                     </li>
                     <li className="flex items-center justify-center md:justify-start gap-2">
                       <FaPhoneAlt className="text-green-400" />
-                      <span>+971 50 123 4567</span>
+                      <span>+971547453650</span>
                     </li>
                     <li className="flex items-center justify-center md:justify-start gap-2">
                       <FaEnvelope className="text-green-400" />
@@ -118,8 +118,8 @@ const Footer: React.FC = () => {
     
               {/* Bottom Section */}
               <div className="text-center text-xs text-gray-500">
-                <p>© 2025 Fresh Harvest Dubai. All rights reserved.</p>
-                <p className="mt-1">Crafted with ❤️ by Fresh Harvest Team</p>
+                <p>© 2025 Warda al Shamikha Al Shamkha 15  Abu Dhabi. All rights reserved.</p>
+                <p className="mt-1">Crafted with ❤️ by Warda al Shamikha Team</p>
               </div>
             </div>
           </footer>

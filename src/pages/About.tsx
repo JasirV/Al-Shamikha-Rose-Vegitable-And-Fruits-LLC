@@ -16,13 +16,13 @@ const About = () => {
       icon: Target,
       title: "Our Mission",
       description:
-        "To make fresh, healthy produce accessible to every home in Dubai with reliable and timely delivery.",
+        "To make fresh, healthy produce accessible to every home in Al Shamkha 15  Abu Dhabi with reliable and timely delivery.",
     },
     {
       icon: Award,
       title: "Excellence",
       description:
-        "Award-winning service with thousands of satisfied customers across Dubai.",
+        "Award-winning service with thousands of satisfied customers across Al Shamkha 15  Abu Dhabi.",
     },
     {
       icon: Users,
@@ -40,10 +40,10 @@ const About = () => {
       <section className="gradient-hero text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
-            About Fresh Harvest
+            About Warda al Shamikha
           </h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in-up opacity-90">
-            Your trusted partner for fresh fruits and vegetables in Dubai
+            Your trusted partner for fresh fruits and vegetables in   Abu Dhabi
           </p>
         </div>
       </section>
@@ -58,7 +58,7 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground">
                 <p>
-                  Fresh Harvest Dubai was born from a simple yet powerful
+                  Warda al Shamikha  Abu Dhabi was born from a simple yet powerful
                   belief: everyone deserves access to farm-fresh, premium
                   quality produce.
                 </p>
@@ -69,7 +69,7 @@ const About = () => {
                   is carefully inspected before it reaches your doorstep.
                 </p>
                 <p>
-                  From our humble beginnings to becoming Dubai's trusted fresh
+                  From our humble beginnings to becoming   Abu Dhabi's trusted fresh
                   produce delivery service, we've maintained our core values:
                   freshness, quality, and customer satisfaction.
                 </p>
@@ -193,7 +193,7 @@ const About = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto bg-gradient-to-r from-green-500 to-green-700 text-white rounded-3xl p-12 shadow-2xl transform transition-all hover:scale-105">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Ready to Experience Fresh Harvest?
+              Ready to Experience Warda al Shamikha?
             </h2>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
               Join thousands of satisfied customers enjoying farm-fresh produce

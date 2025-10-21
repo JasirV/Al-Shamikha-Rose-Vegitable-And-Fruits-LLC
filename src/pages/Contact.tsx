@@ -36,8 +36,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      details: "+971 XX XXX XXXX",
-      link: "tel:+971XXXXXXXXX",
+      details: "+971547453650",
+      link: "tel:+971547453650",
     },
     {
       icon: Mail,
@@ -48,7 +48,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Location",
-      details: "Dubai, United Arab Emirates",
+      details: "Al Shamkha 15  Abu Dhabi",
       link: "#map",
     },
     {
@@ -83,7 +83,8 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="animate-fade-in-up">
               <h2 className="text-3xl font-bold mb-8">
-                Contact <span className="text-gradient-primary">Information</span>
+                Contact{" "}
+                <span className="text-gradient-primary">Information</span>
               </h2>
               <div className="space-y-6">
                 {contactInfo.map((info, index) => {
@@ -106,7 +107,9 @@ const Contact = () => {
                             {info.details}
                           </a>
                         ) : (
-                          <p className="text-muted-foreground">{info.details}</p>
+                          <p className="text-muted-foreground">
+                            {info.details}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -213,26 +216,26 @@ const Contact = () => {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">Find Us</h2>
             <p className="text-muted-foreground">
-              Proudly serving all areas across Dubai
+              Proudly serving all areas across Al Shamkha 15 Abu Dhabi
             </p>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-xl h-96">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462560.68219286674!2d54.89782039453125!3d25.076280000000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai!5e0!3m2!1sen!2sae!4v1234567890123"
+              src="https://www.google.com/maps?q=CP4R+54M+AL+SHAMIKHA+ROSE+VEGITABLE+AND+FRUITS+L.L.C+-+Al+Shamkhah+-+SH2+-+Abu+Dhabi&output=embed"
               width="100%"
-              height="100%"
+              height="450"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Dubai Location Map"
+              title="Al Shamkha Abu Dhabi Location Map"
             />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-       <Footer/>
+      <Footer />
     </div>
   );
 };

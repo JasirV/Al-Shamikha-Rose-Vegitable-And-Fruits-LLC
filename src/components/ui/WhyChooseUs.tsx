@@ -11,7 +11,7 @@ const features = [
     icon: <Truck className="text-green-500 h-8 w-8" />,
     title: "Fast & Reliable Delivery",
     description:
-      "Enjoy same-day delivery across Dubai with our efficient delivery partners — freshness at your door.",
+      "Enjoy same-day delivery across Abu Dhabi with our efficient delivery partners — freshness at your door.",
   },
   {
     icon: <ShieldCheck className="text-green-500 h-8 w-8" />,
@@ -29,7 +29,7 @@ const features = [
     icon: <Star className="text-green-500 h-8 w-8" />,
     title: "Trusted by Customers",
     description:
-      "Thousands of happy customers across Dubai trust Fresh Harvest for their daily fruits and veggies.",
+      "Thousands of happy customers across Abu Dhabi trust Warda al Shamikha for their daily fruits and veggies.",
   },
 ];
 
@@ -39,7 +39,7 @@ const WhyChooseUs: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Why Choose <span className="text-gradient-primary">Fresh Harvest?</span>
+            Why Choose <span className="text-gradient-primary">Warda al Shamikha?</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Because we care about your health, time, and satisfaction.

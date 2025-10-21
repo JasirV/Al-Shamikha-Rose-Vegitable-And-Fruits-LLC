@@ -49,6 +49,19 @@ const HeroSection = () => {
   const getOfferPrice = (price: number, discount: number) =>
     (price - (price * discount) / 100).toFixed(2);
   const handleAddToCart = (offer: Offer) => {
+  const now = moment();
+  const end = moment(offer.endDate);
+
+  console.log("Current time:", now.format());
+  console.log("Offer end time:", end.format());
+  console.log("Is offer expired?", offer);
+  // Check if offer is expired
+  if (now.isAfter(end)) {
+    alert("Sorry, this offer has expired!");
+    return;
+  }
+
+  // Proceed to add to cart if offer is still valid
   addToCart({
     id: currentIndex, // or generate unique ID per offer
     name: `Offer Product`,
@@ -58,7 +71,7 @@ const HeroSection = () => {
     imageUrl: offer.imageUrl,
     category: "Offer",
   });
-}
+};
 
   return (
     <section className="relative overflow-hidden flex flex-col lg:flex-row">
@@ -88,7 +101,7 @@ const HeroSection = () => {
               We Never Compromise on Quality
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90 font-light">
-              Freshness is our promise! Get Dubai's finest fruits and vegetables
+              Freshness is our promise! Get  Abu Dhabi's finest fruits and vegetables
               delivered straight to your doorstep.
             </p>
 
@@ -122,7 +135,7 @@ const HeroSection = () => {
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-secondary" />
                 <span className="text-sm font-medium">
-                  Best Prices in Dubai
+                  Best Prices in Abu Dhabi
                 </span>
               </div>
             </div>
