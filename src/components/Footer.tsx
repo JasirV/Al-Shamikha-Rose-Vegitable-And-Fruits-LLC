@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
                 {/* Brand Section */}
                 <div>
                   <h2 className="text-2xl font-semibold text-white">
-                    Warda al Shamikha Al Shamkha 15  Abu Dhabi
+                    Rose Vegetables and Fruits Al Shamkha 15  Abu Dhabi
                   </h2>
                   <p className="mt-3 text-sm text-gray-400">
                     Delivering freshness across Al Shamkha 15  Abu Dhabi 🌱 <br />
@@ -107,7 +107,7 @@ const Footer: React.FC = () => {
                     </li>
                     <li className="flex items-center justify-center md:justify-start gap-2">
                       <FaEnvelope className="text-green-400" />
-                      <span>hello@freshharvestdubai.com</span>
+                      <span>Alshamikharosellc@gmail.com</span>
                     </li>
                   </ul>
                 </div>

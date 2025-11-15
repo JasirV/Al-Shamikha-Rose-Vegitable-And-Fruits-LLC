@@ -3,6 +3,7 @@ import { Heart, Target, Award, Users } from "lucide-react";
 import fruitsImage from "@/assets/fruits-collection.jpg";
 import vegetablesImage from "@/assets/vegetables-collection.jpg";
 import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   const values = [
@@ -34,6 +35,65 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>About Warda al Shamikha | Fresh Fruits & Vegetables Abu Dhabi</title>
+        <meta
+          name="description"
+          content="Learn about Warda al Shamikha, your trusted partner for fresh fruits and vegetables in Abu Dhabi. Quality, freshness, and customer satisfaction guaranteed."
+        />
+        <meta
+          name="keywords"
+          content="Warda al Shamikha Abu Dhabi, fresh fruits Abu Dhabi, vegetables delivery Abu Dhabi, organic produce Abu Dhabi, farm-fresh fruits Abu Dhabi"
+        />
+        <meta name="author" content="Warda al Shamikha" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="About Warda al Shamikha | Fresh Fruits & Vegetables Abu Dhabi" />
+        <meta property="og:description" content="Learn about Warda al Shamikha, your trusted partner for fresh fruits and vegetables in Abu Dhabi." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={fruitsImage} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Warda al Shamikha | Fresh Fruits & Vegetables Abu Dhabi" />
+        <meta name="twitter:description" content="Learn about Warda al Shamikha, your trusted partner for fresh fruits and vegetables in Abu Dhabi." />
+        <meta name="twitter:image" content={fruitsImage} />
+
+        {/* Structured Data for Local Business */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Warda al Shamikha",
+              "image": "${fruitsImage}",
+              "@id": "",
+              "url": "",
+              "telephone": "+971547453650",
+              "priceRange": "$$",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Al Shamkha 15, Abu Dhabi",
+                "addressCountry": "AE"
+              },
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday"
+                ],
+                "opens": "07:00",
+                "closes": "22:00"
+              }
+            }
+          `}
+        </script>
+      </Helmet>
       <Navigation />
 
       {/* Header */}

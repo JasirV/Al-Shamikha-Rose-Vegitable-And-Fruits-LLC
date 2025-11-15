@@ -4,7 +4,7 @@ import { Menu, X, Leaf, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/contexts/CartContext";
-
+import Logo from '../../public/Images/NavLogo.png'
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -27,8 +27,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <Leaf className="h-6 w-6 text-primary" />
+            <div className=" rounded-lgtransition-colors">
+              {/* <Leaf className="h-6 w-6 text-primary" /> */}
+              <img src={Logo} className="md:h-32 md:w-32 h-20 w-20 " alt="" />
             </div>
 
             <div className="flex flex-col leading-tight">

@@ -4,9 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import heroImage from "@/assets/hero-produce.jpg";
-import fruitsImage from "@/assets/fruits-collection.jpg";
-import vegetablesImage from "@/assets/vegetables-collection.jpg";
 import WhyChooseUs from "@/components/ui/WhyChooseUs";
 import MoreProducts from "@/components/ui/MoreProducts";
 import NewsletterCTA from "@/components/ui/NewsletterCTA";
@@ -15,6 +12,7 @@ import { motion } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, limit } from "firebase/firestore";
 import HeroSection from "@/pages/HeroSection";
+import { MdAddShoppingCart } from "react-icons/md";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -170,7 +168,7 @@ const Home = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
@@ -180,6 +178,20 @@ const Home = () => {
                 <ProductCard {...product} />
               </div>
             ))}
+          </div>
+
+          {/* Centered Load More Button */}
+          <div className="flex justify-center mt-10">
+            <Button
+              asChild
+              variant="secondary"
+              className="gap-2 text-sm sm:text-base px-6 py-3 rounded-lg"
+            >
+              <a href="/products" className="flex items-center">
+                <MdAddShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
+                Load More
+              </a>
+            </Button>
           </div>
 
           {filteredProducts.length === 0 && (
