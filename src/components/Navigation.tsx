@@ -34,10 +34,10 @@ const Navigation = () => {
 
             <div className="flex flex-col leading-tight">
               <span className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-primary to-emerald-500 text-transparent bg-clip-text drop-shadow-sm">
-                وردة الشامخة
+                Rose
               </span>
               <span className="text-xs md:text-sm font-medium text-gradient-primary">
-                Warda al Shamikha
+                Vegitables and Fruits
               </span>
             </div>
           </Link>
