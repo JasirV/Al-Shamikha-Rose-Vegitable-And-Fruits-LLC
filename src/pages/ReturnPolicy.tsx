@@ -1,8 +1,10 @@
 // src/pages/ReturnPolicy.tsx
 import React from "react";
-
+import Navigation from "@/components/Navigation";
 const ReturnPolicy: React.FC = () => {
   return (
+    <>
+        <Navigation />
     <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-heading font-bold mb-6 text-gradient-primary animate-fade-in-up">
         Return Policy
@@ -60,12 +62,13 @@ const ReturnPolicy: React.FC = () => {
         <p className="text-foreground">
           For any questions regarding our return policy, please contact us at{" "}
           <a href="mailto:info@rosevegitables.com" className="text-primary underline">
-            info@yourdomain.com
+            info@rosevegitables.com
           </a>
           .
         </p>
       </section>
     </div>
+    </>
   );
 };
 
