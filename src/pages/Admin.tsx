@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { syncToMerchant } from "@/merchantSync";
 import {
   collection,
   addDoc,
@@ -85,6 +86,7 @@ const Admin = () => {
 
     try {
       await deleteDoc(doc(db, "products", deleteProduct.id));
+      await syncToMerchant(deleteProduct.id, null);
       setDeleteProduct(null);
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -196,7 +198,7 @@ const Admin = () => {
                           Price per kg:
                         </span>
                         <span className="font-semibold text-primary">
-                          ${product.price}
+                          AED{product.price}
                         </span>
                       </div>
                       {product.offerPrice && (
@@ -205,7 +207,7 @@ const Admin = () => {
                             Offer Price:
                           </span>
                           <span className="font-semibold text-red-600">
-                            ${product.offerPrice}
+                            AED{product.offerPrice}
                           </span>
                         </div>
                       )}

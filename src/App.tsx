@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminOfferEdit from "./pages/AdminOfferEdit";
 import ProductDetails from "./pages/ProductDetails";
 import { HelmetProvider } from "react-helmet-async";
+import ReturnPolicy from "./pages/ReturnPolicy";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/return-policy" element={<ReturnPolicy />} />
 
               {/* Protected Admin Route */}
               <Route

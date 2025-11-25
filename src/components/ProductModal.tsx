@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { X, Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/uploadToCloudinary";
+import { syncToMerchant } from "@/merchantSync";
 
 interface ProductForm {
   name: string;
@@ -131,12 +132,17 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
           (b) => b.size && b.price >= 0
         );
       }
-
+      let docRef:any;
       if (product?.id) {
-        await updateDoc(doc(db, "products", product.id), productData);
+        const productDocRef = doc(db, "products", product.id);
+        await updateDoc(productDocRef, productData);
+        docRef = { id: product.id }; // needed for sync
       } else {
-        await addDoc(collection(db, "products"), productData);
+        docRef = await addDoc(collection(db, "products"), productData);
       }
+
+      // ✅ Sync to Merchant via Vercel
+      await syncToMerchant(docRef.id, productData);
 
       onClose();
       reset();
@@ -256,7 +262,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
           {/* Price Section */}
           {(type === "kg" || type === "piece") && (
             <div className="space-y-3">
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">Price (AED)</Label>
               <Input
                 id="price"
                 type="number"
@@ -264,7 +270,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                 {...register("price", { valueAsNumber: true, min: 0 })}
                 placeholder="0.00"
               />
-              <Label htmlFor="offerPrice">Offer Price ($)</Label>
+              <Label htmlFor="offerPrice">Offer Price (AED)</Label>
               <Input
                 id="offerPrice"
                 type="number"
@@ -303,7 +309,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                       />
                     </div>
                     <div className="flex-1">
-                      <Label>Price ($)</Label>
+                      <Label>Price (AED)</Label>
                       <Input
                         type="number"
                         step="0.01"
@@ -313,7 +319,7 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
                       />
                     </div>
                     <div className="flex-1">
-                      <Label>Offer Price ($)</Label>
+                      <Label>Offer Price (AED)</Label>
                       <Input
                         type="number"
                         step="0.01"

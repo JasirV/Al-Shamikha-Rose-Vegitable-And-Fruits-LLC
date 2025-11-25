@@ -182,10 +182,10 @@ const HeroSection = () => {
                     🔥 {currentOffer.discount}% OFF
                   </p>
                   <p className="text-base line-through text-gray-500 mb-1">
-                    ${currentOffer.price}
+                    AED{currentOffer.price}
                   </p>
                   <p className="text-xl font-bold mb-4">
-                    $
+                    AED
                     {(
                       currentOffer.price -
                       (currentOffer.price * currentOffer.discount) / 100
