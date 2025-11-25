@@ -7,6 +7,7 @@ import { useCart } from "@/contexts/CartContext";
 import { MdAddShoppingCart } from "react-icons/md";
 import { ArrowLeft } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import { Helmet } from "react-helmet-async";
 
 interface Product {
   id: string;
@@ -53,6 +54,31 @@ const ProductDetails = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{product?.name} | Rose Vegetables</title>
+        <meta
+          name="description"
+          content={`Buy ${product?.name}. Fresh and organic ${product?.category}.`}
+        />
+        <meta
+          name="keywords"
+          content={`${product?.name}, buy ${product?.name}, fresh ${product?.category}`}
+        />
+
+        <meta
+          property="og:title"
+          content={`${product?.name} | Rose Vegetables`}
+        />
+        <meta
+          property="og:description"
+          content={`Fresh ${product?.name} available for delivery.`}
+        />
+        <meta
+          property="og:url"
+          content={`https://rosevegitables.com/product/${product?.id}`}
+        />
+        <meta property="og:type" content="product" />
+      </Helmet>
       <Navigation />
       <section className="min-h-screen bg-gradient-to-b from-white to-muted/50 py-16">
         <div className="container mx-auto px-6 lg:px-16">
